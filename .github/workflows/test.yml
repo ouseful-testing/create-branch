@@ -1,0 +1,19 @@
+name: "nbsphinx publisher"
+# via: https://github.com/s-weigand/nbsphinx/blob/gh-action-ci-switch/.github/workflows/test.yml
+on:
+  push:
+    branches:
+      - master
+jobs:
+
+  setup-build-branch:
+    if: (github.event.commits[0].message == 'Initial commit') && (github.run_number == 1)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: setup new branch
+        uses: peterjgrainger/action-create-branch@v1.0.0
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          branch: build
